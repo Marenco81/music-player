@@ -69,7 +69,7 @@ export const MusicPlayer = () => {
 
         <div className="controls">
           <button className="control-btn">⏮</button>
-          <button className="control-btn">▶</button>
+          <button className="control-btn play-btn">▶</button>
           <button className="control-btn">⏭</button>
         </div>
     </div>
