@@ -4,7 +4,7 @@ import { useMusic } from "../hooks/useMusic"
 
 export const MusicPlayer = () => {
 
-  const {currentTrack, formatTime, currentTime, duration, setDuration, setCurrentTime} = useMusic();
+  const {currentTrack, formatTime, currentTime, duration, setDuration, setCurrentTime, nextTrack, prevTrack} = useMusic();
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -68,9 +68,9 @@ export const MusicPlayer = () => {
         </div>
 
         <div className="controls">
-          <button className="control-btn">⏮</button>
+          <button className="control-btn" onClick={prevTrack}>⏮</button>
           <button className="control-btn play-btn">▶</button>
-          <button className="control-btn">⏭</button>
+          <button className="control-btn" onClick={nextTrack}>⏭</button>
         </div>
     </div>
   )
