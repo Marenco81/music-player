@@ -1,4 +1,4 @@
-import { AllSongs, MusicPlayer, Playlist } from "./components";
+import { AllSongs, MusicPlayer, Navbar, Playlist } from "./components";
 import {BrowserRouter, Routes, Route} from "react-router";
 import { MusicProvider } from "./contexts/MusicContext";
 
@@ -8,7 +8,7 @@ function App() {
     <BrowserRouter>
       <MusicProvider>
         <div className="app">
-          {/* {<Navbar></Navbar>} */}
+          {<Navbar></Navbar>}
           <main className="app-main">
             <div className="player-section">
               <MusicPlayer></MusicPlayer>
