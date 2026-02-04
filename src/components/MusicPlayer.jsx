@@ -1,5 +1,6 @@
+
 import { useEffect, useRef } from "react";
-import { useMusic } from "../hooks/useMusic"
+import { useMusic } from "../contexts/MusicContext";
 
 
 export const MusicPlayer = () => {
@@ -70,16 +71,30 @@ export const MusicPlayer = () => {
     
 
     audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("canplay", handleLoadedMetadata);
     audio.addEventListener("timeupdate", handleTimeUpdate);
     audio.addEventListener("ended", handleEnded);
 
     return () => {
       audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("canplay", handleLoadedMetadata);
       audio.removeEventListener("timeupdate", handleTimeUpdate);
       audio.removeEventListener("ended", handleEnded);
     }
 
-  }, [setDuration, setCurrentTime, currentTrack]);
+  }, [setDuration, setCurrentTime, currentTrack, nextTrack]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if(!audio) return;
+
+    audio.load();
+    setCurrentTime(0);
+    setDuration(0);
+
+  }, [currentTrack, setCurrentTime, setDuration]);
+
+  const progressPercentege = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <div className="music-player">
@@ -113,7 +128,7 @@ export const MusicPlayer = () => {
             value={currentTime || 0}
             className="progress-bar"
             onChange={handleTimeChange}
-            // style={{}}
+            style={{"--progress": `${progressPercentege}%`}}
           />
           <span className="time"> {formatTime(duration)} </span>
         </div>
