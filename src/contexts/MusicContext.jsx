@@ -114,6 +114,17 @@ export const MusicProvider = ({children}) => {
         setPlaylists((prev) => [...prev, newPlaylist])
       };
 
+      const addSongToPlaylist = (playlistId, song) => {
+        setPlaylists((prev) => prev.map((playlist) => {
+          if(playlist.id === playlistId) {
+            return {...playlist, songs: [...playlist.songs, song]}
+          } else {
+            return playlist
+          }
+          })
+        );
+      };
+
       const play = () => setIsPlaying(true);
       const pause = () => setIsPlaying(false);
 
@@ -135,7 +146,8 @@ export const MusicProvider = ({children}) => {
         volume,
         setVolume,
         createPlaylist,
-        playlists
+        playlists,
+        addSongToPlaylist,
     }}>{children}</MusicContext.Provider>;
 };
 

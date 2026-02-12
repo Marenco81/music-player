@@ -9,7 +9,7 @@ export const Playlist = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const {playlists, createPlaylist, allSongs} = useMusic()
+  const {playlists, createPlaylist, allSongs, addSongToPlaylist} = useMusic()
 
   const filteredSongs = allSongs.filter((song) => {
     const matches = song.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -26,6 +26,15 @@ export const Playlist = () => {
       setNewPlaylistName("")
     }
   };
+
+  const handleAddSong = (song) => {
+    if(selectedPlaylist) {
+      addSongToPlaylist(selectedPlaylist.id, song);
+      setSearchQuery("");
+      setShowDropdown(false);
+    }
+  };
+
   return (
     <div className="playlist">
       <h2>Playlist</h2>
@@ -90,16 +99,34 @@ export const Playlist = () => {
                             No songs found
                           </div>
                         ) : (
-                          filteredSongs.map((song, key) => (
-                          <div key={key} className="dropdown-item">
-                            <span> {song.title} </span>
-                            <span> {song.artist} </span>
+                          filteredSongs.slice(0, 5).map((song, key) => (
+                          <div 
+                            key={key} 
+                            className="dropdown-item" 
+                            onClick={() => handleAddSong(song)}
+                          >
+                            <span className="song-title"> {song.title} </span>
+                            <span className="song-artist"> {song.artist} </span>
                           </div>
                         ))
                       )}
                       </div>
                     )}
                   </div>
+                </div>
+
+                <div className="playlist-songs">
+                  {playlist.songs.length === 0 ? (
+                    <p className="empty-playlist">No songs in this playlist </p>
+                  ) : ( 
+                    playlist.songs.map((song, key) => <div key={key} className={`playlist-song`}>
+                      <div className="song-info">
+                        <span className="song-title"> {song.title} </span>
+                        <span className="song-artist"> {song.artist} </span>
+                      </div>
+                      <span className="song-duration"> {song.duration} </span>
+                    </div>)
+                    )}
                 </div>
               </div>
             ))
