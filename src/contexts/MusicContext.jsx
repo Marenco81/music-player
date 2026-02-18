@@ -114,6 +114,10 @@ export const MusicProvider = ({children}) => {
         setPlaylists((prev) => [...prev, newPlaylist])
       };
 
+      const deletePlaylist = (playlistId) => {
+        setPlaylists((prev) => prev.filter((playlist) => playlist.id !== playlistId));
+      };
+
       const addSongToPlaylist = (playlistId, song) => {
         setPlaylists((prev) => prev.map((playlist) => {
           if(playlist.id === playlistId) {
@@ -148,6 +152,8 @@ export const MusicProvider = ({children}) => {
         createPlaylist,
         playlists,
         addSongToPlaylist,
+        setCurrentTrack,
+        deletePlaylist,
     }}>{children}</MusicContext.Provider>;
 };
 
